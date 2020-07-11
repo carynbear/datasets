@@ -20,7 +20,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
+import os, logging
 
 import tensorflow.compat.v2 as tf
 
@@ -186,6 +186,7 @@ class Librispeech(tfds.core.BeamBasedBuilder):
     return splits
 
   def _build_pcollection(self, pipeline, directory):
+    logging.info("BUILD PCOLLECTION FROM DIRECTORY", directory)
     """Generates examples as dicts."""
     beam = tfds.core.lazy_imports.apache_beam
     return (pipeline
@@ -197,6 +198,7 @@ class Librispeech(tfds.core.BeamBasedBuilder):
 def _generate_librispeech_examples(directory):
   """Generate examples from a Librispeech directory."""
   transcripts_glob = os.path.join(directory, "LibriSpeech", "*/*/*/*.txt")
+  logging.info("TRANSCRIPTS GLOB", transcripts_glob)
   for transcript_file in tf.io.gfile.glob(transcripts_glob):
     path = os.path.dirname(transcript_file)
     with tf.io.gfile.GFile(os.path.join(path, transcript_file)) as f:
@@ -212,4 +214,5 @@ def _generate_librispeech_examples(directory):
             "speech": os.path.join(path, audio_file),
             "text": transcript
         }
+        logging.info("KEY:", key, "EXAMPLE:", example)
         yield key, example
