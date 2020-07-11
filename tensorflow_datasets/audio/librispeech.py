@@ -205,7 +205,7 @@ def _generate_librispeech_examples(directory):
     # logging.info("GFILE", os.path.join(path, transcript_file))
     with tf.io.gfile.GFile(transcript_file) as f:
       for line in f:
-        logging.info("LINE", line)
+        # logging.info("LINE", line)
         line = line.strip()
         key, transcript = line.split(" ", 1)
         audio_file = "%s.flac" % key
@@ -217,5 +217,5 @@ def _generate_librispeech_examples(directory):
             "speech": os.path.join(path, audio_file),
             "text": transcript
         }
-        logging.info("KEY:", key, "EXAMPLE:", example)
+        # logging.info("KEY:", key, "EXAMPLE:", example)
         yield key, example
