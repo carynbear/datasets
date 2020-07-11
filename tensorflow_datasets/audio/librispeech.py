@@ -201,6 +201,8 @@ def _generate_librispeech_examples(directory):
   logging.info("TRANSCRIPTS GLOB", transcripts_glob)
   for transcript_file in tf.io.gfile.glob(transcripts_glob):
     path = os.path.dirname(transcript_file)
+    logging.info("TRANSCRIPTS FILE PATH", path)
+    logging.info("GFILE", os.path.join(path, transcript_file))
     with tf.io.gfile.GFile(os.path.join(path, transcript_file)) as f:
       for line in f:
         line = line.strip()
